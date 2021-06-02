@@ -5,14 +5,16 @@ import java.util.function.Consumer;
 
 public class GraphAlgorithms {
 
-    /*
-        По времени:
-            O( |V| * ( |V| + |E| ) )
-            Насыщенный граф ( |E|=O(|V|^2) ): O( |V|^3 )
-            Разреженный граф ( |E|=O(|V|) ): O( |V|^2 )
-        По памяти:
-            O( |V| )
-    */
+    /**
+     *  По времени (список смежности):
+     *      O( |V| * ( |V| + |E| ) )
+     *      Насыщенный граф ( |E|=O(|V|^2) ): O( |V|^3 )
+     *      Разреженный граф ( |E|=O(|V|) ): O( |V|^2 )
+     *  По времени (матрица смежности):
+     *      O( |V|^3 )
+     *  По памяти:
+     *      O( |V| )
+     */
     public static List<Integer> neededVertices(Graph graph, int from, int to) {
         if (from < 0 || to < 0 || from >= graph.vertexCount() || to >= graph.vertexCount() || to == from
             || !myDfsRecursion(graph, from, from, to))
