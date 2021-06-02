@@ -4,20 +4,101 @@ import java.util.*;
 import java.util.function.Consumer;
 
 public class GraphAlgorithms {
+    /**
+     * Лемма:
+     * Наличие двух различных рёберно простых путей между какими-либо двумя вершинами неориентированного графа
+     * равносильно наличию цикла в этом графе.
+     */
+    public static List<Integer> neededVertices2(Graph graph, int from, int to) {
+        if (from < 0 || to < 0 || from >= graph.vertexCount() || to >= graph.vertexCount() || to == from)
+            return null;
+        List<Integer> shortestPath = shortestPath(graph, from, to);
+        HashSet<Integer> set = allVertInCycles(graph, from);
+        List<Integer> list = new ArrayList<>();
+        for (int i = 1; i < shortestPath.size() - 1; i++) {
+            if (!set.contains(shortestPath.get(i - 1)) || !set.contains(shortestPath.get(i + 1)))
+                list.add(shortestPath.get(i));
+        }
+        return list;
+    }
+
+    private enum State {
+        NOT_VISITED, IN, OUT
+    }
+
+    public static HashSet<Integer> allVertInCycles(Graph graph, int from) {
+        int[] fromVert = new int[graph.vertexCount()];
+        Arrays.fill(fromVert, -1);
+        State[] states = new State[graph.vertexCount()];
+        Arrays.fill(states, State.NOT_VISITED);
+        HashSet<Integer> set = new HashSet<>();
+        class Inner {
+            void visit(int curr, int prev) {
+                if (states[curr] == State.IN) {
+                    int now = prev;
+                    do {
+                        set.add(now);
+                        states[now] = State.OUT;
+                        now = fromVert[now];
+                    } while (now != curr);
+                    set.add(now);
+                    states[now] = State.OUT;
+                } else {
+                    fromVert[curr] = prev;
+                    states[curr] = State.IN;
+                    for (Integer v : graph.adjacencies(curr)) {
+                        if (v != prev && states[v] != State.OUT) {
+                            visit(v, curr);
+                        }
+                    }
+                    states[curr] = State.OUT;
+                }
+            }
+        }
+        new Inner().visit(from, -1);
+        return set;
+    }
+
+    private static List<Integer> shortestPath(Graph graph, int from, int to) {
+        boolean[] visited = new boolean[graph.vertexCount()];
+        int[] fromVert = new int[graph.vertexCount()];
+        Arrays.fill(fromVert, -1);
+        Queue<Integer> queue = new LinkedList<>();
+        queue.add(from);
+        visited[from] = true;
+        while (queue.size() > 0) {
+            Integer curr = queue.remove();
+            if (curr == to)
+                break;
+            for (Integer v : graph.adjacencies(curr)) {
+                if (!visited[v]) {
+                    queue.add(v);
+                    fromVert[v] = curr;
+                    visited[v] = true;
+                }
+            }
+        }
+        List<Integer> list = new ArrayList<>();
+        while (to != -1) {
+            list.add(to);
+            to = fromVert[to];
+        }
+        return list;
+    }
 
     /**
-     *  По времени (список смежности):
-     *      O( |V| * ( |V| + |E| ) )
-     *      Насыщенный граф ( |E|=O(|V|^2) ): O( |V|^3 )
-     *      Разреженный граф ( |E|=O(|V|) ): O( |V|^2 )
-     *  По времени (матрица смежности):
-     *      O( |V|^3 )
-     *  По памяти:
-     *      O( |V| )
+     * По времени (список смежности):
+     * O( |V| * ( |V| + |E| ) )
+     * Насыщенный граф ( |E|=O(|V|^2) ): O( |V|^3 )
+     * Разреженный граф ( |E|=O(|V|) ): O( |V|^2 )
+     * По времени (матрица смежности):
+     * O( |V|^3 )
+     * По памяти:
+     * O( |V| )
      */
     public static List<Integer> neededVertices(Graph graph, int from, int to) {
         if (from < 0 || to < 0 || from >= graph.vertexCount() || to >= graph.vertexCount() || to == from
-            || !myDfsRecursion(graph, from, from, to))
+                || !myDfsRecursion(graph, from, from, to))
             return null;
         List<Integer> list = new ArrayList<>();
         for (int i = 0; i < graph.vertexCount(); i++) {
@@ -31,9 +112,9 @@ public class GraphAlgorithms {
         boolean[] visited = new boolean[graph.vertexCount()];
         visited[visitedVertex] = true;
         class Inner {
-             void visit(Integer curr) {
+            void visit(Integer curr) {
                 visited[curr] = true;
-                if(curr==to)
+                if (curr == to)
                     return;
                 for (Integer v : graph.adjacencies(curr)) {
                     if (!visited[v]) {

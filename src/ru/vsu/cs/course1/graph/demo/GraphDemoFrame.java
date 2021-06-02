@@ -68,6 +68,7 @@ public class GraphDemoFrame extends JFrame {
     private JButton findVertexButton;
     private JSpinner fromSpinner;
     private JSpinner toSpinner;
+    private JButton findVertex2Button;
 
     private JFileChooser fileChooserTxtOpen;
     private JFileChooser fileChooserDotOpen;
@@ -403,6 +404,27 @@ public class GraphDemoFrame extends JFrame {
                 SwingUtils.showErrorMessageBox(exc);
             }
         });
+
+        findVertex2Button.addActionListener(e -> {
+            try {
+                if (graph == null) {
+                    return;
+                }
+                showSystemOut(() -> {
+                    int from = (int) fromSpinner.getValue();
+                    int to = (int) toSpinner.getValue();
+                    List<Integer> list = GraphAlgorithms.neededVertices2(graph, from, to);
+                    if (list == null || list.size() == 0) {
+                        System.out.println("Таких нет!");
+                        return;
+                    }
+                    for (Integer integer : list)
+                        System.out.print(integer + " ");
+                });
+            } catch (Exception exc) {
+                SwingUtils.showErrorMessageBox(exc);
+            }
+        });
     }
 
     /**
@@ -545,7 +567,7 @@ public class GraphDemoFrame extends JFrame {
         buttonDfsQueue.setText("bfs (очередь)");
         panel6.add(buttonDfsQueue, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JPanel panel7 = new JPanel();
-        panel7.setLayout(new GridLayoutManager(1, 6, new Insets(0, 0, 0, 0), -1, -1));
+        panel7.setLayout(new GridLayoutManager(2, 6, new Insets(0, 0, 0, 0), -1, -1));
         panel1.add(panel7, new GridConstraints(5, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         findVertexButton = new JButton();
         findVertexButton.setText("Найти вершины");
@@ -562,6 +584,9 @@ public class GraphDemoFrame extends JFrame {
         panel7.add(fromSpinner, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, new Dimension(-1, 100), 0, false));
         toSpinner = new JSpinner();
         panel7.add(toSpinner, new GridConstraints(0, 3, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, new Dimension(-1, 100), 0, false));
+        findVertex2Button = new JButton();
+        findVertex2Button.setText("Найти вершины 2");
+        panel7.add(findVertex2Button, new GridConstraints(1, 4, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JLabel label4 = new JLabel();
         label4.setText("Вершины, принадлежащие всем путям:");
         panel1.add(label4, new GridConstraints(4, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
