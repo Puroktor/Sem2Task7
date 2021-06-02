@@ -26,7 +26,7 @@ public class GraphAlgorithms {
         NOT_VISITED, IN, OUT
     }
 
-    public static HashSet<Integer> allVertInCycles(Graph graph, int from) {
+    private static HashSet<Integer> allVertInCycles(Graph graph, int from) {
         int[] fromVert = new int[graph.vertexCount()];
         Arrays.fill(fromVert, -1);
         State[] states = new State[graph.vertexCount()];
