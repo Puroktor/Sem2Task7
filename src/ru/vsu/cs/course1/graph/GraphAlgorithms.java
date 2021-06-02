@@ -14,7 +14,8 @@ public class GraphAlgorithms {
             O( |V| )
     */
     public static List<Integer> neededVertices(Graph graph, int from, int to) {
-        if (from < 0 || to < 0 || from >= graph.vertexCount() || to >= graph.vertexCount() || to == from)
+        if (from < 0 || to < 0 || from >= graph.vertexCount() || to >= graph.vertexCount() || to == from
+            || !myDfsRecursion(graph, from, from, to))
             return null;
         List<Integer> list = new ArrayList<>();
         for (int i = 0; i < graph.vertexCount(); i++) {
@@ -30,6 +31,8 @@ public class GraphAlgorithms {
         class Inner {
              void visit(Integer curr) {
                 visited[curr] = true;
+                if(curr==to)
+                    return;
                 for (Integer v : graph.adjacencies(curr)) {
                     if (!visited[v]) {
                         visit(v);
