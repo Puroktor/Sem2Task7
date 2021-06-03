@@ -4,14 +4,92 @@ import java.util.*;
 import java.util.function.Consumer;
 
 public class GraphAlgorithms {
+
+    /**
+     *  Сложность по времни:
+     *      список смежности - O(|V|+|E|)
+     *      матрица смежности - O(|V|^2)
+     *  Сложность оп памяти:
+     *      O(|V|)
+     */
+
+    public static List<Integer> neededVertices3(Graph graph, int from, int to) {
+        if (from < 0 || to < 0 || from >= graph.vertexCount() || to >= graph.vertexCount() || to == from)
+            return null;
+        if(graph instanceof Digraph)
+            throw new UnsupportedOperationException();
+        List<Integer> shortestPath = shortestPath(graph, from, to);
+        Collections.reverse(shortestPath);
+        HashSet<Pair> set = anotherDfs(graph, from);
+        List<Integer> list = new ArrayList<>();
+        for (int i = 1; i < shortestPath.size() - 1; i++) {
+            if(set.contains(new Pair(shortestPath.get(i-1), shortestPath.get(i))))
+                list.add(shortestPath.get(i));
+        }
+        return list;
+    }
+
+    private static class Pair{
+        int from;
+        int to;
+
+        public Pair(int from, int to) {
+            this.from = from;
+            this.to = to;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            Pair pair = (Pair) o;
+            return from == pair.from && to == pair.to;
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(from, to);
+        }
+    }
+    private static HashSet<Pair> anotherDfs(Graph graph, int from) {
+        HashSet<Pair> set = new HashSet<>();
+        boolean[] used = new boolean[graph.vertexCount()];
+        int[] timer = {0};
+        int[] tin = new int[graph.vertexCount()];
+        int[] fup = new int[graph.vertexCount()];
+        class Inner {
+            void dfs(int v, int p) {
+                used[v] = true;
+                tin[v] = fup[v] = timer[0]++;
+                for (Integer to : graph.adjacencies(v)) {
+                    if (to == p) continue;
+                    if (used[to])
+                        fup[v] = Math.min(fup[v], tin[to]);
+                    else {
+                        dfs(to, v);
+                        fup[v] = Math.min(fup[v], fup[to]);
+                        if (fup[to] > tin[v])
+                            set.add(new Pair(v, to));
+                    }
+                }
+            }
+        }
+        new Inner().dfs(from, -1);
+        return set;
+    }
+
     /**
      * Лемма:
      * Наличие двух различных рёберно простых путей между какими-либо двумя вершинами неориентированного графа
      * равносильно наличию цикла в этом графе.
+     *
+     * O( |V|*k +|E| ), где k - кол-во циклов в графе
      */
     public static List<Integer> neededVertices2(Graph graph, int from, int to) {
         if (from < 0 || to < 0 || from >= graph.vertexCount() || to >= graph.vertexCount() || to == from)
             return null;
+        if(graph instanceof Digraph)
+            throw new UnsupportedOperationException();
         List<Integer> shortestPath = shortestPath(graph, from, to);
         HashSet<Integer> set = allVertInCycles(graph, from);
         List<Integer> list = new ArrayList<>();
