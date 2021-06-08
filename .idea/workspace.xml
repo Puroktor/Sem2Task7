@@ -9,7 +9,6 @@
     <list default="true" id="d0f30c31-7042-41d8-8fa8-a81744b8b657" name="Default Changelist" comment="little change">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ru/vsu/cs/course1/graph/GraphAlgorithms.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ru/vsu/cs/course1/graph/GraphAlgorithms.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ru/vsu/cs/course1/graph/demo/GraphDemoFrame.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/ru/vsu/cs/course1/graph/demo/GraphDemoFrame.form" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ru/vsu/cs/course1/graph/demo/GraphDemoFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ru/vsu/cs/course1/graph/demo/GraphDemoFrame.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -56,7 +55,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager.WIDTH" value="412" />
-    <property name="last_opened_file_path" value="$USER_HOME$/Лекция 10. Хеш-таблицы/HashSamples" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Лекция 10. Хеш-таблицы/HashSamples" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.22419627" />

@@ -54,13 +54,13 @@ public class GraphAlgorithms {
     private static HashSet<Pair> anotherDfs(Graph graph, int from) {
         HashSet<Pair> set = new HashSet<>();
         boolean[] used = new boolean[graph.vertexCount()];
-        int[] timer = {0};
         int[] tin = new int[graph.vertexCount()];
         int[] fup = new int[graph.vertexCount()];
         class Inner {
+            int timer = 0;
             void dfs(int v, int p) {
                 used[v] = true;
-                tin[v] = fup[v] = timer[0]++;
+                tin[v] = fup[v] = timer++;
                 for (Integer to : graph.adjacencies(v)) {
                     if (to == p) continue;
                     if (used[to])

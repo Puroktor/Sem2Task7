@@ -613,7 +613,7 @@ public class GraphDemoFrame extends JFrame {
         findVertexButton.setText("Найти вершины");
         panel8.add(findVertexButton, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         findVertex2Button = new JButton();
-        findVertex2Button.setText("Найти вершины 2");
+        findVertex2Button.setText("2 для н-графа");
         panel8.add(findVertex2Button, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         findVertex3Button = new JButton();
         findVertex3Button.setText("3 для н-графа");
